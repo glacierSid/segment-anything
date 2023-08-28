@@ -16,9 +16,11 @@ images = []
 
 # DIRECTORY STRUCTURE for Labels and Images
 # BASE_PATH = r'C:/ICEYE/2023/subsets/subset_0_of_ICEYE_X7_GRD_SM_59797_20210620T052843_M_256'
-BASE_PATH = r'C:\segment-anything\images\testing\final_manuscript_images\Figure4_features\terminus'#r'C:\Users\shank\Downloads'
+# BASE_PATH = r'C:\segment-anything\images\testing\final_manuscript_images\Figure4_features\terminus'#r'C:\Users\shank\Downloads'
+# BASE_PATH = r'C:\segment-anything\images\testing\final_manuscript_images\Landsat\subsets\grids'
+BASE_PATH= r'C:\segment-anything\images\testing\final_manuscript_images\Landsat\subsets'
 # BASE_PATH = r'C:\ICEYE\2023\clipped'
-pattern = '*S2B_MSIL1C_20200826T141739_N0209_R096_T24WWU_20200826T144937_terminus.tif'
+pattern = '*subset_2.tif'
 
 # Setting up path structure based on fjord and satellite sensor used         
 
@@ -30,9 +32,9 @@ for _,dirs,files in os.walk(BASE_PATH,topdown=True):
             fileNames.append(name)
 options_ = [
             '-ot Byte',
-            '-of JPEG',
-            '-b 1 -b 2 -b 3',
-            '-scale'#' #0 255', #120 150
+            '-of PNG',
+            '-b 1',
+            '-scale 0 255'#'0 255', #120 150
         ]           
 
 options_string = " ".join(options_)
@@ -43,10 +45,10 @@ out_path = BASE_PATH#+'/jpgs'
 # Converting each geotiff into .jpg         
 for file_ in fileNames:
     
-    outfile = file_.split('.')[0]+'.jpg' 
+    outfile = file_.split('.')[0]+'.PNG' 
     print(outfile)
     img = gdal.Open(os.path.join(BASE_PATH,file_))
-    gdal.Translate(os.path.join(out_path,outfile),img,format='JPEG',
+    gdal.Translate(os.path.join(out_path,outfile),img,format='PNG',
                    options=options_string)
 
 

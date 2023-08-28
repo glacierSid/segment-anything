@@ -28,11 +28,13 @@ from numpy import asarray
 import pandas as pd
 import matplotlib.pyplot as plt
 
-TRUE_PATH = r'C:\segment-anything\images\testing\final_manuscript_images\metrics\model_metric\true_2'
-PREDICT_PATH = r'C:\segment-anything\images\testing\final_manuscript_images\metrics\model_metric\predict_2'
+# TRUE_PATH = r'C:\segment-anything\images\testing\final_manuscript_images\metrics\model_metric\true_2'
+TRUE_PATH = r'C:\segment-anything\images\testing\final_manuscript_images\metrics\with_prompt_metric\true'
+PREDICT_PATH = r'C:\segment-anything\images\testing\final_manuscript_images\metrics\with_prompt_metric\predict'
+#PREDICT_PATH = r'C:\segment-anything\images\testing\final_manuscript_images\metrics\model_metric\predict_2'
 
 true_pattern = '*.png'
-predict_pattern = '*_predict.png'
+predict_pattern = '*.png'
 # True Label list 1D
 trueLabel = []
 predictLabel = []
@@ -71,9 +73,10 @@ for num,true in enumerate(trueLabel):
     # print('Confusion Matrix: ',conf_matrix)
 
     cmd = ConfusionMatrixDisplay(conf_matrix)
+    
     cmd.plot(cmap='viridis')
     plt.title('Image: %s'%(true))
-    
+    cmd.figure_.savefig('%s_WP_CM.png'%(true),dpi=300)
     # print('F1 score for %s : '%(true),f1_score(trueArr, predArr))
     
     df['image'] = [true]
@@ -83,4 +86,4 @@ for num,true in enumerate(trueLabel):
     df_list.append(df)
     
 df_final = pd.concat(df_list)
-df_final.to_csv(os.path.join(PREDICT_PATH,'f1_score_no_prompt_v2.csv'))
+# df_final.to_csv(os.path.join(PREDICT_PATH,'f1_score_no_prompt_v2.csv'))
